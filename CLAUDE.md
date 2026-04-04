@@ -37,3 +37,4 @@ cd backend && go test ./...      # テスト全実行
 - コミット: Conventional Commits 形式（詳細 → `.claude/rules/commit.md`）
 - テスト: 単体テスト・統合テストを記述（詳細 → `.claude/rules/testing.md`）
 - アーキテクチャ: クリーンアーキテクチャの依存方向を厳守（詳細 → `.claude/rules/architecture.md`）
+- 学習スタイル: コマンドはユーザーが実行するので提示のみ行う（詳細 → `.claude/rules/teaching.md`）
