@@ -1,18 +1,33 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/tasukuwatanabe/crm-app/internal/db"
 	"github.com/tasukuwatanabe/crm-app/internal/handler"
 	"github.com/tasukuwatanabe/crm-app/internal/repository"
 	"github.com/tasukuwatanabe/crm-app/internal/usecase"
 )
 
 func main() {
+	conn, err := db.NewConnection(db.DBConfig{
+		Host:     "localhost",
+		Port:     5432,
+		User:     "tasuku",
+		Password: "",
+		DBName:   "crm_development",
+		SSLMode:  "disable",
+	})
+	if err != nil {
+		log.Fatalf("failed to connect to database: %v", err)
+	}
+	defer conn.Close()
+
 	e := echo.New()
 
-	customerRepo := repository.NewInMemoryCustomerRepository()
+	customerRepo := repository.NewPostgresCustomerRepository(conn)
 	customerUC := usecase.NewCustomerUsecase(customerRepo)
 	customerHandler := handler.NewCustomerHandler(customerUC)
 
